@@ -1,15 +1,14 @@
 package bssv
 
-@Grab(group='com.github.groovy-wslite', module='groovy-wslite', version='1.1.0')
 import wslite.soap.*
 
-class BssvHandler {
+class BssvClient {
 
     def call = { _id ->
         try {
             //todo: lift credentials
-            def username = "mleXXXX"
-            def password = "greaXXXX"
+            def username = "mlewis"
+            def password = "great2014"
             //todo: lift service method
             def manager = "CustomerManager"
             SOAPClient client = new SOAPClient("https://oakdbs01:8182/DV910/${manager}?wsdl")

@@ -1,4 +1,4 @@
-package bssv
+package scrap
 
 import groovy.xml.DOMBuilder
 import groovy.xml.dom.DOMCategory

@@ -1,7 +1,7 @@
-package bssv
 
-@Grab(group='xpp3', module='xpp3_min', version='1.1.4c')
-@Grab(group='com.thoughtworks.xstream', module='xstream', version='1.3')
+
+//@Grab(group='xpp3', module='xpp3_min', version='1.1.4c')
+//@Grab(group='com.thoughtworks.xstream', module='xstream', version='1.3')
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.annotations.XStreamAlias
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute
