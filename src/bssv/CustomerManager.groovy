@@ -17,8 +17,8 @@ class CustomerManager {
 		            xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
 		            soapenv:mustUnderstand="1">
 		            <wsse:UsernameToken>
-		                <wsse:Username>mlewis</wsse:Username>
-		                <wsse:Password>great2014</wsse:Password>
+		                <wsse:Username>mleXXXX</wsse:Username>
+		                <wsse:Password>greXXXX</wsse:Password>
 		            </wsse:UsernameToken>
 		        </wsse:Security>
 		    </soapenv:Header>
