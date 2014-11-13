@@ -9,8 +9,8 @@ def client = new SOAPClient('https://oakdbs01:8182/DV910/CustomerManager?wsdl')
 client.httpClient.sslTrustAllCerts = true
 try {
     def id = 250780
-    def username = "mlewis"
-    def password = "great2014"
+    def username = "mleXXXX"
+    def password = "greXXXX"
     SOAPResponse response = client.send {
         envelopeAttributes(
                 'xmlns:test': "http://test.cxf.grails.org/",
