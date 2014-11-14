@@ -1,4 +1,4 @@
-package bssv.specs
+package specs
 import bssv.CustomerOps
 import spock.lang.Specification
 

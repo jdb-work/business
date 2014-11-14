@@ -1,4 +1,4 @@
-package bssv.specs
+package specs
 
 import bssv.CustomerOps
 import org.codehaus.groovy.runtime.GroovyCategorySupport

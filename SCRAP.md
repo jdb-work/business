@@ -23,7 +23,7 @@ final class Address {
 }
 
 @Category(String)
-class CustomerOps {
+class bssv.CustomerOps {
 
     static String address(String self) {
         new Address(street: self)

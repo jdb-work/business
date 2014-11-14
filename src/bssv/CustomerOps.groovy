@@ -1,13 +1,15 @@
 package bssv
 
-@Category(String)
-class CustomerOps {
+import bssv.domain.Address
 
-    def String address() {
-        def street
-        return street
+@Category(Address)
+class CustomerOps {
+    def address() {
+
     }
 
     def id(String self) { return self ?: "250780" }
-
 }
+
+
+
