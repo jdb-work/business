@@ -1,21 +1,23 @@
 package bssv.domain
+
 import groovy.transform.Immutable
 import groovy.transform.TypeChecked
-@TypeChecked
-@Immutable
+import bssv.contexts.*
+
 public abstract class Entity {
-    static final def xml
-    static final def id
-    static def svcMethod
+    def EntityContext ctx
 }
-abstract class EntityCtx {
-    def String svcMethod
-}
+
 @TypeChecked
-@Immutable
-final class Customer extends Entity {
-    def address
+class Customer
+extends Entity {
+    def CustomerContext ctx
+    def Address address
+    public Customer(CustomerContext ctx) {
+        this.ctx == ctx
+    }
 }
+
 @TypeChecked
 @Immutable
 class Address {
@@ -25,4 +27,6 @@ class Address {
     String state
     String zip
 }
+
+
 

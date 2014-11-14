@@ -1,11 +1,13 @@
 package bssv.ops
 
-import bssv.domain.Entity
-import wslite.soap.*
+import bssv.contexts.EntityContext
+import wslite.soap.SOAPClient
+import wslite.soap.SOAPClientException
+import wslite.soap.SOAPFaultException
+import wslite.soap.SOAPVersion
 
 class Consumer {
-
-    def call = { _id, SvcCtx ctx ->
+    def call(EntityContext ctx) {
         try {
             SOAPClient client = new SOAPClient("https://oakdbs01:8182/DV910/${manager}?wsdl")
             def response = client.send(sslTrustAllCerts: true) {
@@ -25,10 +27,12 @@ class Consumer {
                         }
                     }
                 }
-                ctx.@reqbody
+                body {
+                    ctx.@reqbody
+                }
             }
             assert response != null
-            return new SvcCtx(xml:response)
+            return (ctx.resp = response)
         }
         catch (SOAPFaultException sfe) {
             println sfe.message //fault

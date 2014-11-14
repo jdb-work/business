@@ -8,16 +8,9 @@ class BusinessSpec extends Specification {
 
     def "fails service lookup when external"() {
         given:
-        def ni = NetworkInterface.getByName("en0")
+        def away = false
         expect:
-        println ni.displayName
-        println ni.hardwareAddress
-        println ni.index
-        println ni.loopback
-        println ni.MTU
-        println ni.up
-        println ni.toString()
-        true
+        !away
     }
 
     def "ws-security crededentials are injected by withCreds"() {

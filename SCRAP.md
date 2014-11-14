@@ -37,6 +37,7 @@ class bssv.ops.CustomerOps {
 ```
 
 ```groovy
+@Grab(group='com.thoughtworks.xstream', module='xstream', version='1.4.1')
 @Grab(group='com.github.groovy-wslite', module='groovy-wslite', version='1.1.0')
 ```
 
