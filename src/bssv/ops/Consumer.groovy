@@ -1,44 +1,34 @@
-package bssv
+package bssv.ops
 
+import bssv.domain.Entity
 import wslite.soap.*
 
-class BssvClient {
+class Consumer {
 
-    def call = { _id ->
+    def call = { _id, SvcCtx ctx ->
         try {
-            //todo: lift credentials
-            def username = "mlewis"
-            def password = "great2014"
-            //todo: lift service method
-            def manager = "CustomerManager"
             SOAPClient client = new SOAPClient("https://oakdbs01:8182/DV910/${manager}?wsdl")
             def response = client.send(sslTrustAllCerts: true) {
                 envelopeAttributes(
-                        'xmlns:test': "http://test.cxf.grails.org/",
-                        'xmlns:soapenv': "soapenv",
-                        'xmlns:orac': "http://oracle.e1.bssv.JP010020/")
+                    'xmlns:test': "http://test.cxf.grails.org/",
+                    'xmlns:soapenv': "soapenv",
+                    'xmlns:orac': "http://oracle.e1.bssv.JP010020/")
                 version SOAPVersion.V1_1
                 header {
                     'wsse:Security'(
-                            'soapenv:mustUnderstand': "1",
-                            'xmlns:wsse': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
-                            'xmlns:wsu': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd") {
+                        'soapenv:mustUnderstand': "1",
+                        'xmlns:wsse': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
+                        'xmlns:wsu': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd") {
                         'wsse:UsernameToken'('wsu:Id':"UsernameToken-13") {
                             'wsse:Username'(username)
                             'wsse:Password'('Type': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText", password)
                         }
                     }
                 }
-                body {
-                    'orac:getCustomer' {
-                        entity {
-                            entityId(_id)
-                        }
-                    }
-                }
+                ctx.@reqbody
             }
             assert response != null
-            return response
+            return new SvcCtx(xml:response)
         }
         catch (SOAPFaultException sfe) {
             println sfe.message //fault

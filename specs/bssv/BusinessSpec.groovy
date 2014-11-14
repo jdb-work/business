@@ -1,5 +1,5 @@
-package specs
-import bssv.CustomerOps
+package bssv
+import bssv.ops.CustomerOps
 import spock.lang.Specification
 
 import static org.codehaus.groovy.runtime.GroovyCategorySupport.use
@@ -37,8 +37,13 @@ class BusinessSpec extends Specification {
     }
 
     def "Id returns 250780 as java.lang.String"() {
-        given: def entityId
-        when: use(CustomerOps) { entityId = "".id() }
-        then: entityId instanceof String
+        given:
+        def entityId
+        when:
+        use(CustomerOps) {
+            entityId = "".@id
+        }
+        then:
+        entityId instanceof String
     }
 }

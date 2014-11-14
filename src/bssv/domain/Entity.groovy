@@ -1,26 +1,23 @@
 package bssv.domain
-
-abstract class Entity {
-    protected def id
-    protected def build(id) { this.id = id }
+import groovy.transform.Immutable
+import groovy.transform.TypeChecked
+@TypeChecked
+@Immutable
+public abstract class Entity {
+    static final def xml
+    static final def id
+    static def svcMethod
 }
-
+abstract class EntityCtx {
+    def String svcMethod
+}
+@TypeChecked
+@Immutable
 final class Customer extends Entity {
-    Address address
-    private final def build = { id ->
-        super.build(id)
-        this.address = new Address(
-            street: "123 Main St",
-            detail: "Apt A",
-            city: "Savannah",
-            state: "GA",
-            zip: "31401"
-        )
-    }
+    def address
 }
-
-@groovy.transform.TypeChecked
-@groovy.transform.Immutable
+@TypeChecked
+@Immutable
 class Address {
     String street
     String detail

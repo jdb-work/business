@@ -38,7 +38,9 @@ class CustomerManager {
 			def records = doc.documentElement
 			use(DOMCategory) {
 				assert 11 == records.'*'.size()
-				assert records.each{ el -> if (el.tagName == "city") return el.firstChild.nodeValue}
+				assert records.each { el ->
+					if (el.tagName == "city") { el.firstChild.nodeValue }
+				}?.text() != ""
 			}
         }
         catch (SOAPFaultException sfe) {

@@ -1,6 +1,5 @@
-package specs
+package bssv.ops
 
-import bssv.CustomerOps
 import org.codehaus.groovy.runtime.GroovyCategorySupport
 import spock.lang.Specification
 
