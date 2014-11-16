@@ -2,7 +2,6 @@ package bssv
 import bssv.ops.CustomerOps
 import spock.lang.Specification
 
-import static org.codehaus.groovy.runtime.GroovyCategorySupport.use
 
 class BusinessSpec extends Specification {
 

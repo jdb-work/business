@@ -1,4 +1,4 @@
-package bssv.ops
+package bssv
 /*
 //SAX html scanning/parsing with cyberneko
 import org.cyberneko.html.parsers.SAXParser
@@ -19,7 +19,7 @@ Predicate filter = this.&doFilter
 assert filter.accept('Groovy') == true
 Greeter greeter = GroovySystem.&getVersion
 greeter.greet()
-*/
+
 
 assert "GetCustomer" instanceof GString
-
+*/

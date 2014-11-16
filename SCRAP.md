@@ -1,6 +1,96 @@
 SCRAP.md
 ========
 
+```
+def loaded = {
+    new SvcCtx (
+        'orac:getCustomer' {
+            reqfn: "GetCustomer",
+            req: {  }
+            ) { this.reqfun = reqfun
+                this.reqpar = reqpar
+            }
+        }
+    )
+}
+```
+
+```groovy
+catch (ArrayIndexOutOfBoundsException aioobe) {
+//todo: generalize error response
+return """
+<error>No address found for ${_id}</error>
+
+
+<address>
+    <addressLine1></addressLine1>
+    <addressLine2></addressLine2>
+    <addressLine3></addressLine3>
+    <addressLine4></addressLine4>
+    <city></city>
+    <countryCode></countryCode>
+    <countyCode></countyCode>
+    <mailingName></mailingName>
+    <mailingNameSecondary></mailingNameSecondary>
+    <postalCode></postalCode>
+    <stateCode></stateCode>
+</address>
+"""
+
+//def wsdl = "https://oakdbs01:8182/DV910/${ctx.reqfun}?wsdl"
+//SOAPClient client = new SOAPClient( wsdl )
+//SOAPResponse response = client.send(sslTrustAllCerts:true) {
+```
+
+```groovy
+def call(SvcCtx ctx) {
+try {
+    SOAPClient client = new SOAPClient("https://oakdbs01:8182/DV910/${ctx.reqfun}?wsdl")
+    def response = client.send(sslTrustAllCerts:true) {
+        ctx.@envelope   //'envelopeAttributes' ( )
+        ctx.@soapver    //version SOAPVersion.V1_1
+        ctx.@header     //header {
+        ctx.@wssec      //'wsse:Security'( ctx.@wssext, ctx.@secutil ) { usertoken }
+        ctx.@body       //body {
+        ctx.@msg        //request }
+    }
+    assert response != null
+    return (ctx.resp = response)
+}
+catch (SOAPFaultException sfe) {
+    println sfe.message //fault
+    println sfe.text    //envelope
+    println sfe.httpResponse.statusCode
+}
+catch (SOAPClientException sce) {
+    //indicates client error (i.e., 404 Not Found)
+    println 'SCE: ' + sce.cause
+}
+catch (ArrayIndexOutOfBoundsException aioobe) {
+    //todo: generalize error response
+    return """
+    <error>No address found for ${_id}</error>
+    <address>
+        <addressLine1></addressLine1>
+        <addressLine2></addressLine2>
+        <addressLine3></addressLine3>
+        <addressLine4></addressLine4>
+        <city></city>
+        <countryCode></countryCode>
+        <countyCode></countyCode>
+        <mailingName></mailingName>
+        <mailingNameSecondary></mailingNameSecondary>
+        <postalCode></postalCode>
+        <stateCode></stateCode>
+    </address>
+    """
+}
+```
+
+```groovy
+'wsse:UsernameToken' { //('wsu:Id': "UsernameToken-13") {}
+````
+
 ```groovy
 def rex = "(?=<address>)|(?<=</address>)"
 def el = "city"
@@ -62,10 +152,10 @@ def obj
 new File("john.xml").withOutputStream { out ->
     stream.toXML(msg, out)
 }
-/*
+
 new File("john.xml").withInputStream { ins ->
     obj = stream.fromXML(ins)
 }
-*/
+
 println obj
 ```

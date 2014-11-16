@@ -12,19 +12,21 @@ try {
     def username = "mlewis"
     def password = "great2014"
     SOAPResponse response = client.send {
-        envelopeAttributes(
-                'xmlns:test': "http://test.cxf.grails.org/",
-                'xmlns:soapenv': "soapenv",
-                'xmlns:orac': "http://oracle.e1.bssv.JP010020/")
+        envelopeAttributes (
+            'xmlns:orac': "http://oracle.e1.bssv.JP010020/",
+            'xmlns:test': "http://test.cxf.grails.org/",
+            'xmlns:soapenv': "soapenv"
+        )
         version SOAPVersion.V1_1
         header {
-            'wsse:Security'(
-                    'soapenv:mustUnderstand': "1",
-                    'xmlns:wsse': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
-                    'xmlns:wsu': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd") {
+            'wsse:Security' (
+                'xmlns:wsse': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
+                'xmlns:wsu': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd",
+                'soapenv:mustUnderstand': "1"
+                ) {
                 'wsse:UsernameToken'('wsu:Id':"UsernameToken-13") {
                     'wsse:Username'(username)
-                    'wsse:Password'('Type': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText", password)
+                    'wsse:Password'(type: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText", password)
                 }
             }
         }

@@ -1,4 +1,4 @@
 business
 ========
 
-bssv api/dsl bssv.ops.playground
+bssv api/dsl bssv.playground

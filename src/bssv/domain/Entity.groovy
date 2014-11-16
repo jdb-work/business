@@ -5,15 +5,15 @@ import groovy.transform.TypeChecked
 import bssv.contexts.*
 
 public abstract class Entity {
-    def EntityContext ctx
+    def SvcCtx ctx
 }
 
 @TypeChecked
 class Customer
 extends Entity {
-    def CustomerContext ctx
+    def CustmrCtx ctx
     def Address address
-    public Customer(CustomerContext ctx) {
+    public Customer(CustmrCtx ctx) {
         this.ctx == ctx
     }
 }
