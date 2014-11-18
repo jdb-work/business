@@ -1,5 +1,14 @@
 package bssv.ctx
+
 import bssv.meta.Ctx
+
+@Category(Ctx)
+class CustomerCategory {
+
+    public String mail() {
+        (this as Customer).@email
+    }
+}
 
 class Customer extends Ctx {
 
@@ -8,7 +17,7 @@ class Customer extends Ctx {
     //todo: from conf
     def static final wsdl = "https://oakdbs01:8182/DV910/CustomerManager?wsdl"
 
-    def final req = {
+    def final oldreq = {
         'orac:getCustomer' {
             entity {
                 entityId(id) //todo: inject into live context
@@ -16,7 +25,25 @@ class Customer extends Ctx {
         }
     }
 
-    String email
+    def final req = {'''
+        <orac:getCustomer>
+            <entity>
+                <entityId>
+                    ${_id}
+                </entityId>
+            </entity>
+        </orac:getCustomer>
+    '''}
+
+    /*
+        'orac:getCustomer' {
+            entity {
+                entityId(id) //todo: inject into live context
+            }
+        }
+    */
+
+    def email
     Address address
 
     class Address {
@@ -38,9 +65,4 @@ class Customer extends Ctx {
         open: 0.0,
         du: 0.0
     ]
-}
-
-@Category(Ctx)
-class CustomerCategory {
-    public String mail() { 'mail' }
 }
