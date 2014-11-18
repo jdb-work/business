@@ -1,37 +1,45 @@
 package bssv.ops
 
-import bssv.contexts.*
+import bssv.ctx.Customer
 import wslite.soap.*
 
 class SvcInvoker {
-    def SvcCtx ctx = new CustmrCtx(ctx.@_id) //"250780"
-    def SOAPClient client = new SOAPClient("https://oakdbs01:8182/DV910/${ctx.@soapfn}?wsdl")
-    def SOAPResponse response = client.send(sslTrustAllCerts = true) {
-        envelopeAttributes (
-        'xmlns:test': "http://test.cxf.grails.org/",
-        'xmlns:orac': "http://oracle.e1.bssv.JP010020/",
-        'xmlns:soapenv': "soapenv" )
-        version SOAPVersion.V1_1
-        header {
-            'wsse:Security'(
-            'soapenv:mustUnderstand': "1",
-            'xmlns:wsse': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd",
-            'xmlns:wsu': "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-            ) {
-                'wsse:UsernameToken' {
-                    'wsse:Username' ( username )
-                    'wsse:Password' (
-                    Type: "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText",
-                    ctx.@password )
+
+    //todo: inject this context
+    def ctx = new Customer()
+
+    def call = {
+        try {
+            def client = new SOAPClient(ctx.@addr as String)
+            client.httpClient.sslTrustAllCerts = true
+            def SOAPResponse response = client.send(sslTrustAllCerts:true) {
+                envelopeAttributes(
+                'xmlns:soapenv':"soapenv",
+                'xmlns:orac':"http://oracle.e1.bssv.JP010020/")
+                header {
+                    'wsse:Security'(
+                    'xmlns:wsse':"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+                    ) {
+                        'wsse:UsernameToken' {
+                            'wsse:Username'(ctx.@username)
+                            'wsse:Password'(ctx.@password)
+                        }
+                    }
+                }
+                body {
+                    ctx.@req
                 }
             }
         }
-        body {
-            ctx.@req
+        catch (SOAPFaultException sfe) {
+            println sfe.message
+            println sfe.text
+            println sfe.httpResponse.statusCode
         }
+        catch (SOAPClientException sce) {
+            println "SCE: " + sce.cause
+        }
+        assert response != null
+        return (ctx.@resp = response)
     }
-    assert response != null
-
-    return (ctx.@resp = response)
 }
-

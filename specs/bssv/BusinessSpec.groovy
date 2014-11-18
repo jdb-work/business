@@ -1,7 +1,6 @@
 package bssv
-import bssv.ops.CustomerOps
-import spock.lang.Specification
 
+import spock.lang.Specification
 
 class BusinessSpec extends Specification {
 
@@ -29,13 +28,7 @@ class BusinessSpec extends Specification {
     }
 
     def "Id returns 250780 as java.lang.String"() {
-        given:
-        def entityId
-        when:
-        use(CustomerOps) {
-            entityId = "".@id
-        }
-        then:
-        entityId instanceof String
+        expect:
+        false
     }
 }

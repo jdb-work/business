@@ -2,7 +2,7 @@ package bssv
 
 import groovy.xml.DOMBuilder
 import groovy.xml.dom.DOMCategory
-//@Grab(group='com.github.groovy-wslite', module='groovy-wslite', version='1.1.0')
+@Grab(group='com.github.groovy-wslite', module='groovy-wslite', version='1.1.0')
 import wslite.soap.*
 
 def client = new SOAPClient('https://oakdbs01:8182/DV910/CustomerManager?wsdl')
@@ -59,8 +59,3 @@ catch (SOAPClientException sce) {
     //indicates client error (i.e., 404 Not Found)
     println "SCE: " + sce.cause
 }
-
-
-
-
-
