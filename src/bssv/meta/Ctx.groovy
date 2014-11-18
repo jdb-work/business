@@ -1,14 +1,15 @@
 package bssv.meta
 
-class Ctx {
+import bssv.ops.ServiceInvoker
 
-    def String id
+class Ctx implements ServiceInvoker {
 
+    def abstract id
+    def abstract wsdl
     def username = "mlewis"
     def password = "great2014"
     def abstract req
     def resp
-    def addr
 }
 
 

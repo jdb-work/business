@@ -1,16 +1,20 @@
 package bssv.ops
 
-import bssv.ctx.Customer
+import bssv.meta.Ctx
+import groovy.util.logging.Log4j2
 import wslite.soap.*
 
-class SvcInvoker {
+trait ServiceInvoker {
 
-    //todo: inject this context
-    def ctx = new Customer()
+    def ctx = this as Ctx
 
+    //@Log4j2
     def call = {
+
+        assert ctx.@req != null
+
         try {
-            def client = new SOAPClient(ctx.@addr as String)
+            def client = new SOAPClient(ctx.@wsdl as String)
             client.httpClient.sslTrustAllCerts = true
             def SOAPResponse response = client.send(sslTrustAllCerts:true) {
                 envelopeAttributes(
@@ -21,8 +25,8 @@ class SvcInvoker {
                     'xmlns:wsse':"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
                     ) {
                         'wsse:UsernameToken' {
-                            'wsse:Username'(ctx.@username)
-                            'wsse:Password'(ctx.@password)
+                            'wsse:Username'(ctx.username)
+                            'wsse:Password'(ctx.password)
                         }
                     }
                 }
@@ -39,7 +43,7 @@ class SvcInvoker {
         catch (SOAPClientException sce) {
             println "SCE: " + sce.cause
         }
-        assert response != null
-        return (ctx.@resp = response)
+        assert call != null
+        return (ctx.resp = call)
     }
 }
